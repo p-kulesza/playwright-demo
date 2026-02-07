@@ -28,35 +28,17 @@ export class MainPageLocators {
   constructor(page: Page) {
     this.page = page;
     this.storeLogo = page.locator("[id='nava']");
-    this.homeButton = page.locator('ul [class="nav-link"]', {
-      hasText: "Home",
-    });
-    this.contactButton = page.locator('ul [class="nav-link"]', {
-      hasText: "Contact",
-    });
-    this.aboutUsButton = page.locator('ul [class="nav-link"]', {
-      hasText: "About us",
-    });
-    this.cartButton = page.locator('ul [class="nav-link"]', {
-      hasText: "Cart",
-    });
-    this.loginButton = page.locator('ul [class="nav-link"]', {
-      hasText: "Log in",
-    });
-    this.signUpButton = page.locator('ul [class="nav-link"]', {
-      hasText: "Sign up",
-    });
+    this.homeButton = page.locator('ul [class="nav-link"]', {hasText: "Home",});
+    this.contactButton = page.locator('ul [class="nav-link"]', {hasText: "Contact",});
+    this.aboutUsButton = page.locator('ul [class="nav-link"]', {hasText: "About us",});   
+    this.cartButton = page.locator('ul [class="nav-link"]', {hasText: "Cart",});
+    this.loginButton = page.locator('ul [class="nav-link"]', {hasText: "Log in",});
+    this.signUpButton = page.locator('ul [class="nav-link"]', {hasText: "Sign up",});
     this.carouselNextButton = page.locator("[id='carousel-control-next']");
     this.carouselPreviousButton = page.locator("[id='carousel-control-prev']");
-    this.phonesCategoryButton = page.locator('a [class="list-group-item"]', {
-      hasText: "Phones",
-    });
-    this.laptopsCategoryButton = page.locator('a [class="list-group-item"]', {
-      hasText: "Laptops",
-    });
-    this.monitorsCategoryButton = page.locator('a [class="list-group-item"]', {
-      hasText: "Monitors",
-    });
+    this.phonesCategoryButton = page.locator('a [class="list-group-item"]', {hasText: "Phones",});
+    this.laptopsCategoryButton = page.locator('a [class="list-group-item"]', {hasText: "Laptops",});
+    this.monitorsCategoryButton = page.locator('a [class="list-group-item"]', {hasText: "Monitors",});
     this.previousButton = page.locator("[id='prev']");
     this.nextButton = page.locator("[id='next']");
     this.usernameSignField = page.locator("[id='sign-username']");
