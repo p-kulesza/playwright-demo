@@ -22,36 +22,36 @@ export class SignUpPage {
 
     async signUpWithEmptyUsername(password: string) {
         await this.mainPageLocators.passwordSignField.fill(password);
-        expect (this.mainPageLocators.usernameSignField).toBeEmpty();
+        await expect (this.mainPageLocators.usernameSignField).toBeEmpty();
     }
 
     async signUpWithEmptyPassword(username: string) {
         await this.mainPageLocators.usernameSignField.fill(username);
-        expect (this.mainPageLocators.passwordSignField).toBeEmpty();
+        await expect (this.mainPageLocators.passwordSignField).toBeEmpty();
     }
 
     async closeSignUpDialog() {
         await this.mainPageLocators.closeDialogButton.click();
-        expect(this.mainPageLocators.usernameSignField).toBeHidden();
-        expect(this.mainPageLocators.passwordSignField).toBeHidden();
-        expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
-        expect(this.mainPageLocators.closeDialogButton).toBeHidden();
+        await expect(this.mainPageLocators.usernameSignField).toBeHidden();
+        await expect(this.mainPageLocators.passwordSignField).toBeHidden();
+        await expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
+        await expect(this.mainPageLocators.closeDialogButton).toBeHidden();
     }
 
     async closeSignUpDialogWithIcon() {
         await this.mainPageLocators.closeIconButton.click();
-        expect(this.mainPageLocators.usernameSignField).toBeHidden();
-        expect(this.mainPageLocators.passwordSignField).toBeHidden();
-        expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
-        expect(this.mainPageLocators.closeDialogButton).toBeHidden();
+        await expect(this.mainPageLocators.usernameSignField).toBeHidden();
+        await expect(this.mainPageLocators.passwordSignField).toBeHidden();
+        await expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
+        await expect(this.mainPageLocators.closeDialogButton).toBeHidden();
     }
 
     async signUp(){
         await this.mainPageLocators.signUpDialogButton.click();
-        expect(this.mainPageLocators.usernameSignField).toBeHidden();
-        expect(this.mainPageLocators.passwordSignField).toBeHidden();
-        expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
-        expect(this.mainPageLocators.closeDialogButton).toBeHidden();
+        await expect(this.mainPageLocators.usernameSignField).toBeHidden();
+        await expect(this.mainPageLocators.passwordSignField).toBeHidden();
+        await expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
+        await expect(this.mainPageLocators.closeDialogButton).toBeHidden();
     }
 
     async signUpWithEmptyFields() {
