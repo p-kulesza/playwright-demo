@@ -18,8 +18,8 @@ export class MainPageLocators {
   readonly nextButton: Locator;
   readonly usernameSignField: Locator;
   readonly passwordSignField: Locator;
-  readonly closeButton: Locator;
-  readonly signUpButton: Locator;
+  readonly closeDialogButton: Locator;
+  readonly signUpDialogButton: Locator;
   readonly usernameLoginField: Locator;
   readonly passwordLoginField: Locator;
   readonly LogInButton: Locator;
@@ -43,6 +43,11 @@ export class MainPageLocators {
     this.nextButton = page.locator("[id='next']");
     this.usernameSignField = page.locator("[id='sign-username']");
     this.passwordSignField = page.locator("[id='sign-password']");
-    this.closeButton = page.locator("[type='button']", { hasText: "Close" });
+    this.closeDialogButton = page.locator("[type='button']", { hasText: "Close" });
+    this.signUpDialogButton = page.locator("[type='button']", { hasText: "Sign up" });
+    this.usernameLoginField = page.locator("[id='loginusername']");
+    this.passwordLoginField = page.locator("[id='loginpassword']");
+    this.LogInButton = page.locator("[type='button']", { hasText: "Log in" });
+    this.closeIconButton = page.locator("[class='modal-header'] [class='close']");
   }
 }

@@ -1,18 +1,20 @@
 import { test, expect } from '@playwright/test';
+import { SignUpPage } from '../mainpagemethods/singUp.spec'; 
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+test.beforeEach(async ({ page }) => {
+  await page.goto('https://www.demoblaze.com');
 });
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('Login to DemoBlaze', async ({ page }) => {
+  const signUpPage = new SignUpPage(page);
+  await signUpPage.OpenSignUpDialog();
+  await signUpPage.signUpFully('testuser', 'testpassword');
+  await signUpPage.successfulCommentSignUpDialog();
+});
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+test('Login to DemoBlaze with empty username', async ({ page }) => {
+  const signUpPage = new SignUpPage(page);
+  await signUpPage.OpenSignUpDialog();
+  await signUpPage.signUpWithEmptyUsername('testpassword');
+  await signUpPage.validationCommentSignUpDialog();
 });
