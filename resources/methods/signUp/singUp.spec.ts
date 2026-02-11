@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import { MainPageLocators } from "../locators/mainpagelocators.spec";
+import { MainPageLocators } from "../../locators/mainpagelocators.spec";
 
 export class SignUpPage {
   readonly mainPageLocators: MainPageLocators;

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { SignUpPage } from '../mainpagemethods/singUp.spec'; 
+import { SignUpPage } from '../resources/methods/signUp/singUp.spec'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('https://www.demoblaze.com');
