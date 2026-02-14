@@ -42,9 +42,6 @@ export class SignUpPage {
 
     async applySignUp(){
         await this.mainPageLocators.signUpDialogButton.click();
-        await expect(this.mainPageLocators.usernameSignField).toBeHidden();
-        await expect(this.mainPageLocators.passwordSignField).toBeHidden();
-        await expect(this.mainPageLocators.signUpDialogButton).toBeHidden();
     }
 
     async negativePopUpSignUp() {

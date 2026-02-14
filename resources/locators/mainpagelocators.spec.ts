@@ -43,11 +43,11 @@ export class MainPageLocators {
     this.nextButton = page.locator("[id='next']");
     this.usernameSignField = page.locator("[id='sign-username']");
     this.passwordSignField = page.locator("[id='sign-password']");
-    this.closeDialogButton = page.locator("[type='button']", { hasText: "Close" });
+    this.closeDialogButton = page.locator("[type='button']", { hasText: "Close" }).nth(1);
     this.signUpDialogButton = page.locator("[onclick='register()']", { hasText: "Sign up" });
     this.usernameLoginField = page.locator("[id='loginusername']");
     this.passwordLoginField = page.locator("[id='loginpassword']");
     this.LogInButton = page.locator("[type='button']", { hasText: "Log in" });
-    this.closeIconButton = page.locator("[class='modal-header'] [class='close']");
+    this.closeIconButton = page.locator("[class='modal-header'] [class='close']").nth(1);
   }
 }
