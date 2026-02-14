@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { SignUpPage } from '../resources/methods/signUp/singUp.spec'
+import { SignUpPage } from '../resources/methods/singUp.spec'
 import { login, password } from '../resources/credentials';
 
 test.beforeEach(async ({ page }) => {
