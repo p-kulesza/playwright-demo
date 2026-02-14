@@ -1,20 +1,36 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { SignUpPage } from '../resources/methods/signUp/singUp.spec'
+import { login, password } from '../resources/methods/credentials';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('https://www.demoblaze.com');
 });
 
-test('Login to DemoBlaze', async ({ page }) => {
+test('Correct login', async ({ page }) => {
   const signUpPage = new SignUpPage(page);
   await signUpPage.OpenSignUpDialog();
-  await signUpPage.signUpFully('testuser', 'testpassword');
-  await signUpPage.successfulCommentSignUpDialog();
+  await signUpPage.inputUsernameSignUp(login);
+  await signUpPage.inputPasswordSignUp(password);
+  await signUpPage.applySignUp();
+  await signUpPage.positivePopUpSignUp();
 });
 
-test('Login to DemoBlaze with empty username', async ({ page }) => {
+test('Incorrect login with empty username', async ({ page }) => {
   const signUpPage = new SignUpPage(page);
   await signUpPage.OpenSignUpDialog();
-  await signUpPage.signUpWithEmptyUsername('testpassword');
-  await signUpPage.validationCommentSignUpDialog();
+  await signUpPage.inputPasswordSignUp(password);
+  await signUpPage.negativePopUpSignUp();
+});
+
+test('Incorrect login with empty password', async ({ page }) => {
+  const signUpPage = new SignUpPage(page);
+  await signUpPage.OpenSignUpDialog();
+  await signUpPage.inputUsernameSignUp(login);
+  await signUpPage.negativePopUpSignUp();
+});
+
+test('Incorrect login with empty fields', async ({ page }) => {
+  const signUpPage = new SignUpPage(page);
+  await signUpPage.OpenSignUpDialog();
+  await signUpPage.negativePopUpSignUp();
 });
