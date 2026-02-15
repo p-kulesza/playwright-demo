@@ -1,1 +1,3 @@
 This repository is a demonstration of end-to-end, functional and API test automation using Playwright with TypeScript. It provides practical examples of building reliable UI tests as well as automated API tests, highlighting skills in testing modern web applications both at the frontend and backend level.
+
+work in progress... :)
