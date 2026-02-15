@@ -1,17 +1,20 @@
 import {expect, Page} from "@playwright/test";
 import { MainPageLocators } from "../locators/mainpagelocators.spec";
+import { NavigationBarLocators } from "../locators/navigationbarlocators.spec";
 
 export class LogInPage {
     readonly mainPageLocators: MainPageLocators;
+    readonly navigationBarLocators: NavigationBarLocators;
     readonly page: Page;
     
     constructor(page: Page) {
         this.page = page;
         this.mainPageLocators = new MainPageLocators(page);
+        this.navigationBarLocators = new NavigationBarLocators(page);
     }
 
     async OpenLogInDialog() {
-        await this.mainPageLocators.loginButton.click();
+        await this.navigationBarLocators.loginButton.click();
         await expect(this.mainPageLocators.usernameLoginField).toBeVisible();
     }
 

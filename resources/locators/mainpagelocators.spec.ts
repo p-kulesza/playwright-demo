@@ -2,13 +2,6 @@ import { Page, Locator } from "@playwright/test";
 
 export class MainPageLocators {
   readonly page: Page;
-  readonly storeLogo: Locator;
-  readonly homeButton: Locator;
-  readonly contactButton: Locator;
-  readonly aboutUsButton: Locator;
-  readonly cartButton: Locator;
-  readonly loginButton: Locator;
-  readonly signUpButton: Locator;
   readonly carouselNextButton: Locator;
   readonly carouselPreviousButton: Locator;
   readonly phonesCategoryButton: Locator;
@@ -24,16 +17,11 @@ export class MainPageLocators {
   readonly passwordLoginField: Locator;
   readonly LogInButton: Locator;
   readonly closeIconButton: Locator;
+  readonly productName: Locator;
+  readonly productCategory: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.storeLogo = page.locator("[id='nava']");
-    this.homeButton = page.locator('ul [class="nav-link"]', {hasText: "Home",});
-    this.contactButton = page.locator('ul [class="nav-link"]', {hasText: "Contact",});
-    this.aboutUsButton = page.locator('ul [class="nav-link"]', {hasText: "About us",});   
-    this.cartButton = page.locator('ul [class="nav-link"]', {hasText: "Cart",});
-    this.loginButton = page.locator('ul [class="nav-link"]', {hasText: "Log in",});
-    this.signUpButton = page.locator('ul [class="nav-link"]', {hasText: "Sign up",});
     this.carouselNextButton = page.locator("[id='carousel-control-next']");
     this.carouselPreviousButton = page.locator("[id='carousel-control-prev']");
     this.phonesCategoryButton = page.locator('a [class="list-group-item"]', {hasText: "Phones",});
@@ -49,5 +37,7 @@ export class MainPageLocators {
     this.passwordLoginField = page.locator("[id='loginpassword']");
     this.LogInButton = page.locator("[type='button']", { hasText: "Log in" });
     this.closeIconButton = page.locator("[class='modal-header'] [class='close']").nth(1);
+    this.productName = page.locator("[class='card-title']");
+    this.productCategory = page.locator('[class="list-group"]');
   }
 }

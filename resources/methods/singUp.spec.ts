@@ -1,17 +1,20 @@
 import { expect, Page } from "@playwright/test";
 import { MainPageLocators } from "../locators/mainpagelocators.spec";
+import { NavigationBarLocators } from "../locators/navigationbarlocators.spec";
 
 export class SignUpPage {
   readonly mainPageLocators: MainPageLocators;
+  readonly navigationBarLocators: NavigationBarLocators;
   readonly page: Page;
 
     constructor(page: Page) {
         this.page = page;
+        this.navigationBarLocators = new NavigationBarLocators(page);
         this.mainPageLocators = new MainPageLocators(page);
     }
 
     async OpenSignUpDialog() {
-        await this.mainPageLocators.signUpButton.click();
+        await this.navigationBarLocators.signUpButton.click();
         await expect(this.mainPageLocators.usernameSignField).toBeVisible();
     }
 
