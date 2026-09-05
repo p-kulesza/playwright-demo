@@ -1,10 +1,11 @@
-import {test,expect,request} from "@playwright/test";
+import { APIRequestContext, expect, request, test } from '@playwright/test';
 
-let apiContext: any;
+let apiContext: APIRequestContext;
 
 test.beforeEach(async () => {
   apiContext = await request.newContext({
     baseURL: 'https://api.demoblaze.com',
+    ignoreHTTPSErrors: true,
     extraHTTPHeaders: {
       'Content-Type': 'application/json',
     },
@@ -15,7 +16,7 @@ test.afterEach(async () => {
   await apiContext.dispose();
 });
 
-test('entries reposense', async () => {
+test('entries response', async () => {
     const response = await apiContext.get("/entries");
     const responseBody = await response.json();
 

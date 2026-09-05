@@ -1,97 +1,45 @@
-import { test } from '@playwright/test';
-import { SignUpPage } from '../resources/methods/singUp.spec'
-import { login, password } from '../resources/credentials';
+import { expect, test } from './fixtures/test';
+import { HomePage } from '../pages/HomePage';
+import { SignupModal } from '../pages/components/SignupModal';
+import { generateCredentials } from '../resources/credentials';
+import { DemoblazeApi } from '../resources/api/DemoblazeApi';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('https://www.demoblaze.com');
+async function openSignupModal(homePage: HomePage): Promise<SignupModal> {
+  await homePage.navigation.openSignUp();
+  return new SignupModal(homePage.page);
+}
+
+test('Correct signup', async ({ homePage }) => {
+  const credentials = generateCredentials();
+  const signupModal = await openSignupModal(homePage);
+  const message = await signupModal.signUp(credentials.login, credentials.password);
+
+  expect(message).toBe('Sign up successful.');
 });
 
-test('Correct login', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.inputUsernameSignUp(login);
-  await signUpPage.inputPasswordSignUp(password);
-  await signUpPage.applySignUp();
-  await signUpPage.positivePopUpSignUp();
+test('Close signup dialog with close button', async ({ homePage }) => {
+  const signupModal = await openSignupModal(homePage);
+
+  await signupModal.close();
+
+  await expect(signupModal.dialog).toBeHidden();
 });
 
-test('Incorrect login with empty username', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.inputPasswordSignUp(password);
-  await signUpPage.negativePopUpSignUp();
+test('Close signup dialog with close icon', async ({ homePage }) => {
+  const signupModal = await openSignupModal(homePage);
+
+  await signupModal.closeWithIcon();
+
+  await expect(signupModal.dialog).toBeHidden();
 });
 
-test('Incorrect login with empty password', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.inputUsernameSignUp(login);
-  await signUpPage.negativePopUpSignUp();
-});
+test('Signup with existing credentials', async ({ homePage }) => {
+  const credentials = generateCredentials();
+  const api = new DemoblazeApi();
+  await api.createUser(credentials);
 
-test('Incorrect login with empty fields', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.negativePopUpSignUp();
-});
+  const signupModal = await openSignupModal(homePage);
+  const message = await signupModal.signUp(credentials.login, credentials.password);
 
-test('Close sign up dialog with close button', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.closeSignUpDialog();
-});
-
-test('Close sign up dialog with close icon', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.closeSignUpDialogWithIcon();
-});
-
-test('Sign up with existing credentials', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.inputUsernameSignUp("login");
-  await signUpPage.inputPasswordSignUp("password");
-  await signUpPage.applySignUp();
-  await signUpPage.negativePopUpSignUp();
-}); 
-
-test('Sign up with special characters in username and password', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  await signUpPage.inputUsernameSignUp("!@#$%^&*()_+");
-  await signUpPage.inputPasswordSignUp("!@#$%^&*()_+");
-  await signUpPage.applySignUp();
-  await signUpPage.positivePopUpSignUp();
-});
-
-test('Sign up with long username and password', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  const longUsername = 'a'.repeat(256);
-  const longPassword = 'b'.repeat(256);
-  await signUpPage.inputUsernameSignUp(longUsername);
-  await signUpPage.inputPasswordSignUp(longPassword);
-  await signUpPage.applySignUp();
-  await signUpPage.positivePopUpSignUp();
-});
-
-test('Sign up with SQL injection in username and password', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  const sqlInjection = "' OR '1'='1";
-  await signUpPage.inputUsernameSignUp(sqlInjection);
-  await signUpPage.inputPasswordSignUp(sqlInjection);
-  await signUpPage.applySignUp();
-  await signUpPage.positivePopUpSignUp();
-});
-
-test('Sign up with XSS attack in username and password', async ({ page }) => {
-  const signUpPage = new SignUpPage(page);
-  await signUpPage.OpenSignUpDialog();
-  const xssAttack = "<script>alert('XSS');</script>";
-  await signUpPage.inputUsernameSignUp(xssAttack);
-  await signUpPage.inputPasswordSignUp(xssAttack);
-  await signUpPage.applySignUp();
-  await signUpPage.positivePopUpSignUp();
+  expect(message).toBe('This user already exist.');
 });

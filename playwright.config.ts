@@ -8,6 +8,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
+    baseURL: 'https://www.demoblaze.com',
+    ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
   },
 

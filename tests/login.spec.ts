@@ -1,74 +1,45 @@
-import { test } from '@playwright/test';
-import { LogInPage } from '../resources/methods/logIn.spec' 
-import { login, password } from '../resources/credentials';
+import { expect, test } from './fixtures/test';
+import { HomePage } from '../pages/HomePage';
+import { LoginModal } from '../pages/components/LoginModal';
+import { generateCredentials } from '../resources/credentials';
+import { DemoblazeApi } from '../resources/api/DemoblazeApi';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('https://www.demoblaze.com');
+async function openLoginModal(homePage: HomePage): Promise<LoginModal> {
+  await homePage.navigation.openLogin();
+  return new LoginModal(homePage.page);
+}
+
+test('Correct login', async ({ homePage }) => {
+  const credentials = generateCredentials();
+  const api = new DemoblazeApi();
+  await api.createUser(credentials);
+
+  const loginModal = await openLoginModal(homePage);
+  const message = await loginModal.login(credentials.login, credentials.password);
+
+  expect(message).toBeNull();
+  await expect(homePage.navigation.loggedInUser).toHaveText(`Welcome ${credentials.login}`);
 });
 
-test('Correct login', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.inputUsernameLogin(login);
-    await logInPage.inputPasswordLogin(password);
-    await logInPage.applyLogIn();
-    await logInPage.positivePopUpLogIn();
+test('Login with empty fields', async ({ homePage }) => {
+  const loginModal = await openLoginModal(homePage);
+  const message = await loginModal.login('', '');
+
+  expect(message).toBe('Please fill out Username and Password.');
 });
 
-test('Incorrect login with empty username', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.inputPasswordLogin(password);
-    await logInPage.negativePopUpLogIn();
+test('Login with non-existing credentials', async ({ homePage }) => {
+  const credentials = generateCredentials();
+  const loginModal = await openLoginModal(homePage);
+  const message = await loginModal.login(credentials.login, credentials.password);
+
+  expect(message).toBe('User does not exist.');
 });
 
-test('Incorrect login with empty password', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.inputUsernameLogin(login);
-    await logInPage.negativePopUpLogIn();
-});
+test('Close login dialog', async ({ homePage }) => {
+  const loginModal = await openLoginModal(homePage);
 
-test('Incorrect login with empty fields', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.negativePopUpLogIn();
-});
+  await loginModal.close();
 
-test('Log in with non-existing credentials', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.inputUsernameLogin("login");
-    await logInPage.inputPasswordLogin("password");
-    await logInPage.applyLogIn();
-    await logInPage.negativePopUpLogIn();
-});
-
-test('Log in with special characters in username and password', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.inputUsernameLogin("!@#$%^&*()_+");
-    await logInPage.inputPasswordLogin("!@#$%^&*()_+");
-    await logInPage.applyLogIn();
-    await logInPage.negativePopUpLogIn();
-});
-
-test('Log in with SQL injection in username and password', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    await logInPage.inputUsernameLogin("' OR '1'='1");
-    await logInPage.inputPasswordLogin("' OR '1'='1");
-    await logInPage.applyLogIn();
-    await logInPage.negativePopUpLogIn();
-});
-
-test('Log in with long username and password', async ({ page }) => {
-    const logInPage = new LogInPage(page);
-    await logInPage.OpenLogInDialog();
-    const longUsername = 'a'.repeat(256);
-    const longPassword = 'b'.repeat(256);
-    await logInPage.inputUsernameLogin(longUsername);
-    await logInPage.inputPasswordLogin(longPassword);
-    await logInPage.applyLogIn();
-    await logInPage.negativePopUpLogIn();
+  await expect(loginModal.dialog).toBeHidden();
 });

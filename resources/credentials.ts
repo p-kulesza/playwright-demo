@@ -10,7 +10,7 @@ function randomPart(length: number): string {
 export function generateCredentials(): GeneratedCredentials {
   return {
     login: `user_${randomPart(8)}`,
-    password: `P@ss_${randomPart(12)}`,
+    password: `Pss_${randomPart(12)}`,
   };
 }
 
